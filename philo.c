@@ -54,8 +54,11 @@ void	parse_the_data(int ac, char *av[])
 
 void	*philosopher(void *arg)
 {
-	printf("i'm philosopher number [%d]\n", *(int *)arg);
+	pthread_mutex_lock(&g_mutex);
+	int		dd = *(int *)arg;
+	printf("i'm philosopher number [%d]\n", dd);
 	free(arg);
+	pthread_mutex_unlock(&g_mutex);
 	return NULL;
 }
 
@@ -66,6 +69,8 @@ int		create_philosophers(void)
 	int			*nb;
 
 	i = 0;
+	if (pthread_mutex_init(&g_mutex, NULL))
+		return (printf("Error: Can't initialize mutex\n") * 0 + 1);
 	while (i < g_philo_attr.nb_of_philo)
 	{
 		nb = malloc(sizeof(int));
@@ -81,6 +86,8 @@ int		create_philosophers(void)
 			return (printf("Error: can't join the thread [%d]\n", i) * 0 + 1);
 		i++;
 	}
+	if (pthread_mutex_destroy(&g_mutex))
+		return (printf("Error: can't destroy mutex\n") * 0 + 1);
 	return (0);
 }
 

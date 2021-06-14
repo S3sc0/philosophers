@@ -28,6 +28,7 @@ typedef struct {
 	int		times_to_eat;
 }			t_attribute;
 
-t_attribute	g_philo_attr;
+t_attribute		g_philo_attr;
+pthread_mutex_t	g_mutex;
 
 #endif
