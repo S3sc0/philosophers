@@ -12,6 +12,15 @@
 
 #include "philo.h"
 
+long int	get_time_in_millis(void)
+{
+	struct timeval	time; 
+
+	if (gettimeofday(&time, NULL))
+		return (printf("Error: gettimeofday didn't work\n") * 0 - 1);
+	return (time.tv_sec * 1000);
+}
+
 int		valid_number(char *str)
 {
 	int		i;
@@ -100,5 +109,6 @@ int     main(int ac, char *av[])
 	parse_the_data(ac, av);
 	if (create_philosophers())
 		return (1);
+	printf("time in ms: %ld\n", get_time_in_millis());
 	return (0);
 }
