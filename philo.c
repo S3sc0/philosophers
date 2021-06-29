@@ -81,8 +81,8 @@ void	take_fork_and_eat(int id)
 	left = id - 1;
 	right = (left + 1) % g_philo_attr.nb_of_philo;
 	pthread_mutex_lock(&g_philo_attr.mutex[left]);
-	print_state("has taken a fork", id);
 	pthread_mutex_lock(&g_philo_attr.mutex[right]);
+	print_state("has taken a fork", id);
 	print_state("has taken a fork", id);
 	print_state("is eating", id);
 	usleep(g_philo_attr.time_to_eat * 1000);
@@ -109,8 +109,8 @@ void	*philosopher(void *arg)
 	id = *(int *)arg;
 	if (g_philo_attr.times_to_eat)
 		restricted_loop(id);
-	else
-		infinite_loop();
+	/*else
+		infinite_loop();*/
 	free(arg);
 	return NULL;
 }
@@ -120,7 +120,7 @@ int		alloc_init_mutex(void)
 	int		i;
 
 	i = 0;
-	g_philo_attr.mutex = malloc(sizeof(t_attribute) * g_philo_attr.nb_of_philo);
+	g_philo_attr.mutex = malloc(sizeof(pthread_mutex_t) * g_philo_attr.nb_of_philo);
 	while (i < g_philo_attr.nb_of_philo)
 	{
 		if (pthread_mutex_init(&g_philo_attr.mutex[i], NULL))
