@@ -17,6 +17,8 @@ int		valid_number(char *str)
 	int		i;
 
 	i = 0;
+	if (str[0] == 48)
+		return (1);
 	while (str[i] != '\0')
 	{
 		if (str[i] < 48 || str[i] > 57)
@@ -74,7 +76,7 @@ int		create_philosophers(void)
 	while (i < g_philo_attr.nb_of_philo)
 	{
 		nb = malloc(sizeof(int));
-		*nb = i;
+		*nb = i + 1;
 		if (pthread_create(&th[i], NULL, &philosopher, nb))
 			return (printf("Error: can't create the thread [%d]\n", i) * 0 + 1);
 		i++;
