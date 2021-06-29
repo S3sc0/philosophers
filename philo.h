@@ -17,18 +17,19 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <sys/time.h>
 
 int		ft_atoi(const char *str);
 
 typedef struct {
-	int		nb_of_philo;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		times_to_eat;
+	int				nb_of_philo;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				times_to_eat;
+	pthread_mutex_t	*mutex;
 }			t_attribute;
 
 t_attribute		g_philo_attr;
-pthread_mutex_t	g_mutex;
 
 #endif
