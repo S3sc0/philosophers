@@ -65,15 +65,15 @@ void	parse_the_data(int ac, char *av[])
 		g_philo_attr.times_to_eat = 0;
 }
 
-void	print_state(char *state, int id)
+void	print_state(char *state, int id, char *color)
 {
 	long int	time;
 
 	time = get_time_in_millis();
-	printf("%ld %d \033[0;34m %s \033[0m\n", time, id, state);
+	printf("%ld %d %s%s\033[0m\n", time, id, color, state);
 }
 
-void	take_fork_and_eat(int id)
+void	take_forks_and_eat(int id)
 {
 	int		left;
 	int		right;
@@ -81,10 +81,10 @@ void	take_fork_and_eat(int id)
 	left = id - 1;
 	right = (left + 1) % g_philo_attr.nb_of_philo;
 	pthread_mutex_lock(&g_philo_attr.mutex[left]);
+	print_state("has taken a fork", id, BLUE);
 	pthread_mutex_lock(&g_philo_attr.mutex[right]);
-	print_state("has taken a fork", id);
-	print_state("has taken a fork", id);
-	print_state("is eating", id);
+	print_state("has taken a fork", id, BLUE);
+	print_state("is eating", id, YELLOW);
 	usleep(g_philo_attr.time_to_eat * 1000);
 	pthread_mutex_unlock(&g_philo_attr.mutex[right]);
 	pthread_mutex_unlock(&g_philo_attr.mutex[left]);
@@ -97,7 +97,7 @@ void	restricted_loop(int id)
 	i = 0;
 	while (i < g_philo_attr.times_to_eat)
 	{
-		take_fork_and_eat(id);
+		take_forks_and_eat(id);
 		i++;
 	}
 }

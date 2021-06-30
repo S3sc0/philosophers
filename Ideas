@@ -1,0 +1,8 @@
+------ Ideas for philosopher ------
+1) error handling if the arrguments are negative or zero [DONE]
+2) create a function that make gettimeofday function easy to use
+3) then create forks aka mutex and try simulating philosopher eating
+	- create mutexes and put them in the global struct
+	- fix the function that prints philosopher status especially colors
+4) finish it with sleeping and eating
+5) create the thread that watches its philosopher if it should die

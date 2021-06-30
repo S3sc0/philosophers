@@ -13,13 +13,17 @@
 #ifndef PHILO_H
 #define PHILO_H
 
+#define BLUE "\033[0;34m"
+#define RED "\033[0;31m"
+#define YELLOW "\033[0;33m"
+#define PURPLE "\033[0;35m"
+#define RESET "\033[0m"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
 #include <sys/time.h>
-
-int		ft_atoi(const char *str);
 
 typedef struct {
 	int				nb_of_philo;
@@ -31,5 +35,7 @@ typedef struct {
 }			t_attribute;
 
 t_attribute		g_philo_attr;
+
+int		ft_atoi(const char *str);
 
 #endif
