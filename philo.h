@@ -24,6 +24,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <string.h>
 
 typedef struct {
 	int				nb_of_philo;
