@@ -70,8 +70,27 @@ void	print_state(char *state, int id, char *color)
 	long int	time;
 
 	time = get_time_in_millis();
-	// printf("%ld %d %s%s\033[0m\n", time, id, color, state);
-	write(1, state, strlen(state));
+	printf("%ld %d %s%s\033[0m\n", time, id, color, state);
+}
+
+void mysleep(long long arg)
+{
+	
+	struct timeval t;
+	long long		d;
+	long long		microb;
+
+	gettimeofday(&t, NULL);
+	long long k = (t.tv_usec + (t.tv_sec * 1000000));
+	microb = k;
+	d = arg - 50;
+	usleep(d * 1000);
+	while ((k - microb) < (arg * 1000))
+	{	
+		gettimeofday(&t, NULL);
+		k = (t.tv_usec + (t.tv_sec * 1000000));
+	}
+	
 }
 
 void	take_forks_and_eat(int id)
@@ -79,17 +98,19 @@ void	take_forks_and_eat(int id)
 	int		left;
 	int		right;
 
-	left = id - 1;
-	right = (left + 1) % g_philo_attr.nb_of_philo;
-	pthread_mutex_lock(&g_philo_attr.mutex[left]);
-	pthread_mutex_lock(&g_philo_attr.mutex[right]);
-	write(1, "has taken a fork\n", 17);
-	write(1, "has taken a fork\n", 17);
+	// left = id - 1;
+	// right = (left + 1) % g_philo_attr.nb_of_philo;
+	pthread_mutex_lock(&g_philo_attr.mutex[id - 1]);
+	print_state("has taken a fork 1\n", id, BLUE);
+	pthread_mutex_lock(&g_philo_attr.mutex[id % g_philo_attr.nb_of_philo]);
+	print_state("has taken a fork 2\n", id, BLUE);
 	print_state("is eating\n", id, YELLOW);
-	usleep(g_philo_attr.time_to_eat * 1000);
-	pthread_mutex_unlock(&g_philo_attr.mutex[right]);
-	pthread_mutex_unlock(&g_philo_attr.mutex[left]);
+	mysleep(g_philo_attr.time_to_eat);
+	pthread_mutex_unlock(&g_philo_attr.mutex[id - 1]);
+	pthread_mutex_unlock(&g_philo_attr.mutex[id % g_philo_attr.nb_of_philo]);
+	mysleep(100);
 }
+
 
 void	restricted_loop(int id)
 {
@@ -124,7 +145,7 @@ int		alloc_init_mutex(void)
 	g_philo_attr.mutex = malloc(sizeof(pthread_mutex_t) * g_philo_attr.nb_of_philo);
 	while (i < g_philo_attr.nb_of_philo)
 	{
-		if (pthread_mutex_init(&g_philo_attr.mutex[i], NULL))
+		if (pthread_mutex_init(&g_philo_attr.mutex[i], NULL) == -1)
 			return (1);
 		i++;
 	}
@@ -158,9 +179,9 @@ int		create_philosophers(void)
 	{
 		nb = malloc(sizeof(int));
 		*nb = i + 1;
-		if (pthread_create(&th[i], NULL, &philosopher, nb))
+		if (pthread_create(&th[i], NULL, philosopher, nb))
 			return (printf("Error: can't create the thread [%d]\n", i) * 0 + 1);
-		usleep(1000);
+		usleep(100);
 		i++;
 	}
 	i = 0;
