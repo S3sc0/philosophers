@@ -28,9 +28,39 @@ int		ft_atoi(const char *str)
 	return (nb * sign);
 }
 
+int		error_m(char *message)
+{
+	printf("%s%s%s\n", RED, message, RESET);
+	return (1);
+}
+
+int		check_for_mistakes(int ac, char *av[])
+{
+	int		i;
+	int		j;
+	
+	i = 1;
+	if (ac < 5 || ac > 6)
+		return (error_m("error: wrong number of arguments"));
+	while (i < ac)
+	{
+		j = 0;
+		while (av[i][j] != '\0')
+		{
+			if (av[i][j] < '0' || av[i][j] > '9' || av[i][0] == '0')
+				return (error_m("error: unvalid number"));
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
 int		parse_info(int ac, char *av[])
 {
-	
+	if (check_for_mistakes(ac, av) == 1)
+		return (1);
+	return (0);
 }
 
 int		main(int ac, char *av[])

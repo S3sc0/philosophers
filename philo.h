@@ -1,5 +1,8 @@
 #ifndef PHILO_H
-#define PHI
+#define PHILO_H
+
+#define RED " \033[0;31m"
+#define RESET "\033[0m"
 
 #include <stdlib.h>
 #include <stdio.h>
