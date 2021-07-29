@@ -56,16 +56,25 @@ int		check_for_mistakes(int ac, char *av[])
 	return (0);
 }
 
-int		parse_info(int ac, char *av[])
+int		parse_info(int ac, char *av[], t_info *info)
 {
 	if (check_for_mistakes(ac, av) == 1)
 		return (1);
+	info->nb_of_philo = ft_atoi(av[1]);
+	info->time_to_die = ft_atoi(av[2]);
+	info->time_to_eat = ft_atoi(av[3]);
+	info->time_to_sleep = ft_atoi(av[4]);
+	if (ac == 6)
+		info->times_to_eat = ft_atoi(av[5]);
 	return (0);
 }
 
 int		main(int ac, char *av[])
 {
-	if (parse_info(ac, av) == 1)
+	t_info	info;
+	t_state	*state;
+
+	if (parse_info(ac, av, &info) == 1)
 		return (1);
 	return (0);
 }
