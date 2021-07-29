@@ -109,6 +109,5 @@ int		main(int ac, char *av[])
 	if (parse_info(ac, av) == 1 || initialize_mutex() == 1)
 		return (1);
 	initialize_state();
-	printf("%d %d %d %d\n", g_info.nb_of_philo, g_info.time_to_die, g_info.time_to_eat, g_info.time_to_sleep);
 	return (0);
 }
