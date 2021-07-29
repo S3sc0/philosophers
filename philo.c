@@ -56,25 +56,59 @@ int		check_for_mistakes(int ac, char *av[])
 	return (0);
 }
 
-int		parse_info(int ac, char *av[], t_info *info)
+int		parse_info(int ac, char *av[])
 {
 	if (check_for_mistakes(ac, av) == 1)
 		return (1);
-	info->nb_of_philo = ft_atoi(av[1]);
-	info->time_to_die = ft_atoi(av[2]);
-	info->time_to_eat = ft_atoi(av[3]);
-	info->time_to_sleep = ft_atoi(av[4]);
+	g_info.nb_of_philo = ft_atoi(av[1]);
+	g_info.time_to_die = ft_atoi(av[2]);
+	g_info.time_to_eat = ft_atoi(av[3]);
+	g_info.time_to_sleep = ft_atoi(av[4]);
 	if (ac == 6)
-		info->times_to_eat = ft_atoi(av[5]);
+		g_info.times_to_eat = ft_atoi(av[5]);
 	return (0);
+}
+
+int		initialize_mutex(void)
+{
+	int		i;
+
+	i = 0;
+	g_fork = malloc(sizeof(pthread_mutex_t) * g_info.nb_of_philo);
+	while (i < g_info.nb_of_philo)
+	{
+		if (pthread_mutex_init(&g_fork[i], NULL) != 0)
+			return (error_m("error: can't initialzie mutex"));
+		i++;
+	}
+	if (pthread_mutex_init(&g_output, NULL) != 0)
+		return (error_m("error: can't initialzie mutex"));
+	return (0);
+}
+
+void	initialize_state(void)
+{
+	int		i;
+
+	i = 0;
+	g_state = malloc(sizeof(t_state) * g_info.nb_of_philo);
+	while (i < g_info.nb_of_philo)
+	{
+		g_state[i].id = i + 1;
+		g_state[i].eating = 0;
+		g_state[i].sleeping = 0;
+		g_state[i].last_time_eat = 0;
+		g_state[i].current_eat_time = 0;
+		g_state[i].times_eat = 0;
+		i++;
+	}
 }
 
 int		main(int ac, char *av[])
 {
-	t_info	info;
-	t_state	*state;
-
-	if (parse_info(ac, av, &info) == 1)
+	if (parse_info(ac, av) == 1 || initialize_mutex() == 1)
 		return (1);
+	initialize_state();
+	printf("%d %d %d %d\n", g_info.nb_of_philo, g_info.time_to_die, g_info.time_to_eat, g_info.time_to_sleep);
 	return (0);
 }

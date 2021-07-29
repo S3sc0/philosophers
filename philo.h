@@ -21,15 +21,17 @@ typedef struct	s_info
 
 typedef struct	s_state
 {
-	t_info			*data;
 	int				id;
 	int				eating;
 	int				sleeping;
 	int				last_time_eat;
 	int				current_eat_time;
 	int				times_eat;
-	pthread_mutex_t	*fork;
-	pthread_mutex_t	*output;
 }				t_state;
+
+pthread_mutex_t		*g_fork;
+pthread_mutex_t		g_output;
+t_info				g_info;
+t_state				*g_state;
 
 #endif
