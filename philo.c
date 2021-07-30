@@ -34,6 +34,19 @@ int		error_m(char *message)
 	return (1);
 }
 
+void	print_state(int id, char *status, char *color)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	tv.tv_sec *= 1000;
+	pthread_mutex_lock(&g_output);
+	printf("%ld %d %s%s%s\n", tv.tv_sec, id, color, status, RESET);
+	pthread_mutex_unlock(&g_output);
+}
+
+void	mysleep(); // write this function
+
 int		check_for_mistakes(int ac, char *av[])
 {
 	int		i;
@@ -107,11 +120,27 @@ void	initialize_state(void)
 	}
 }
 
-void	*philosopher(void *arg)
+void	philosopher(t_state state)
 {
-	t_state		tmp;
+	
+}
 
-	tmp = *(t_state*)arg;
+void	*looping(void *arg)
+{
+	t_state		state;
+	int			i;
+
+	state = *(t_state*)arg;
+	i = 0;
+	if (g_info.times_to_eat == 0)
+		while (1)
+			philosopher(state);
+	else
+		while (i < g_info.times_to_eat)
+		{
+			philosopher(state);
+			i++;
+		}
 	return (NULL);
 }
 
@@ -122,7 +151,7 @@ int		create_philosophers(void)
 	i = 0;
 	while (i < g_info.nb_of_philo)
 	{
-		if (pthread_create(&g_th[i], NULL, philosopher, (void*)&g_state[i]))
+		if (pthread_create(&g_th[i], NULL, looping, (void*)&g_state[i]))
 			return (error_m("error: can't create thread"));
 		i++;
 	}

@@ -3,12 +3,15 @@
 
 #define RED " \033[0;31m"
 #define RESET "\033[0m"
+#define BLUE "\033[0;34m"
+#define	YELLOW "\033[0;33m"
+#define PURPLE "\033[0;35m"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <pthread.h>
-#include <time.h>
+#include <sys/time.h>
 
 typedef struct	s_info
 {
