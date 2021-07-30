@@ -37,15 +37,20 @@ int		error_m(char *message)
 void	print_state(int id, char *status, char *color)
 {
 	struct timeval	tv;
+	long long		ms;
 
 	gettimeofday(&tv, NULL);
 	tv.tv_sec *= 1000;
+	ms = tv.tv_sec + (tv.tv_usec / 1000000);
 	pthread_mutex_lock(&g_output);
-	printf("%ld %d %s%s%s\n", tv.tv_sec, id, color, status, RESET);
+	printf("%ld %d %s%s%s\n", ms, id, color, status, RESET);
 	pthread_mutex_unlock(&g_output);
 }
 
-void	mysleep(); // write this function
+void	mysleep(int ms)
+{
+
+}
 
 int		check_for_mistakes(int ac, char *av[])
 {
