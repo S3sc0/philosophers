@@ -48,7 +48,7 @@ int		check_for_mistakes(int ac, char *av[])
 		while (av[i][j] != '\0')
 		{
 			if (av[i][j] < '0' || av[i][j] > '9' || av[i][0] == '0')
-				return (error_m("error: unvalid number"));
+				return (error_m("error: unvalid argument"));
 			j++;
 		}
 		i++;
@@ -66,6 +66,8 @@ int		parse_info(int ac, char *av[])
 	g_info.time_to_sleep = ft_atoi(av[4]);
 	if (ac == 6)
 		g_info.times_to_eat = ft_atoi(av[5]);
+	else
+		g_info.times_to_eat = 0;
 	return (0);
 }
 
@@ -92,6 +94,7 @@ void	initialize_state(void)
 
 	i = 0;
 	g_state = malloc(sizeof(t_state) * g_info.nb_of_philo);
+	g_th = malloc(sizeof(pthread_t) * g_info.nb_of_philo);
 	while (i < g_info.nb_of_philo)
 	{
 		g_state[i].id = i + 1;
@@ -104,10 +107,39 @@ void	initialize_state(void)
 	}
 }
 
+void	*philosopher(void *arg)
+{
+	t_state		tmp;
+
+	tmp = *(t_state*)arg;
+	return (NULL);
+}
+
+int		create_philosophers(void)
+{
+	int		i;
+
+	i = 0;
+	while (i < g_info.nb_of_philo)
+	{
+		if (pthread_create(&g_th[i], NULL, philosopher, (void*)&g_state[i]))
+			return (error_m("error: can't create thread"));
+		i++;
+	}
+	return (0);
+}
+
 int		main(int ac, char *av[])
 {
 	if (parse_info(ac, av) == 1 || initialize_mutex() == 1)
 		return (1);
 	initialize_state();
+	if (create_philosophers() == 1)
+		return (1);
+	for (int i = 0; i < g_info.nb_of_philo; i++)
+	{
+		if (pthread_join(g_th[i], NULL))
+			return (error_m("error: can't join thread"));
+	}
 	return (0);
 }

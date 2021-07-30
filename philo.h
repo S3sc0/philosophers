@@ -33,5 +33,6 @@ pthread_mutex_t		*g_fork;
 pthread_mutex_t		g_output;
 t_info				g_info;
 t_state				*g_state;
+pthread_t			*g_th;
 
 #endif
