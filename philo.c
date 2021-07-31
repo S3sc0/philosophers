@@ -41,7 +41,7 @@ void	print_state(int id, char *status, char *color)
 
 	gettimeofday(&tv, NULL);
 	tv.tv_sec *= 1000;
-	ms = tv.tv_sec + (tv.tv_usec / 1000000);
+	ms = tv.tv_sec + (tv.tv_usec / 1000);
 	pthread_mutex_lock(&g_output);
 	printf("%ld %d %s%s%s\n", ms, id, color, status, RESET);
 	pthread_mutex_unlock(&g_output);
@@ -49,7 +49,18 @@ void	print_state(int id, char *status, char *color)
 
 void	mysleep(int ms)
 {
+	struct timeval	tv;
+	long long		current;
+	long long		last;
 
+	gettimeofday(&tv, NULL);
+	last = tv.tv_usec + (tv.tv_sec * 1000000);
+	usleep((ms - 50) * 1000);
+	while ((current - last) < (ms * 1000))
+	{
+		gettimeofday(&tv, NULL);
+		current = tv.tv_usec + (tv.tv_sec * 1000000);
+	}
 }
 
 int		check_for_mistakes(int ac, char *av[])
