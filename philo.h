@@ -9,6 +9,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 #include <pthread.h>
 #include <sys/time.h>
@@ -27,8 +28,8 @@ typedef struct	s_state
 	int				id;
 	int				eating;
 	int				sleeping;
-	int				last_time_eat;
-	int				current_eat_time;
+	long long		last_time_eat;
+	long long		current_eat_time;
 	int				times_eat;
 }				t_state;
 

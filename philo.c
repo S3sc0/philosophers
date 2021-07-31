@@ -34,16 +34,25 @@ int		error_m(char *message)
 	return (1);
 }
 
+long long	ft_gettime(void)
+{
+	long long		ret;
+	struct timeval	tv;
+	
+	gettimeofday(&tv, NULL);
+	ret = tv.tv_sec * 1000;
+	ret = ret + tv.tv_usec / 1000;
+	return (ret);
+}
+
 void	print_state(int id, char *status, char *color)
 {
 	struct timeval	tv;
 	long long		ms;
 
-	gettimeofday(&tv, NULL);
-	tv.tv_sec *= 1000;
-	ms = tv.tv_sec + (tv.tv_usec / 1000);
 	pthread_mutex_lock(&g_output);
-	printf("%ld %d %s%s%s\n", ms, id, color, status, RESET);
+	ms = ft_gettime();
+	printf("%lld %d %s%s%s\n", ms, id, color, status, RESET);
 	pthread_mutex_unlock(&g_output);
 }
 
@@ -138,7 +147,26 @@ void	initialize_state(void)
 
 void	philosopher(t_state state)
 {
-	
+	int		left;
+	int		right;
+
+	left = state.id - 1;
+	right = (left + 1) % g_info.nb_of_philo;
+	pthread_mutex_lock(&g_fork[left]);
+	print_state(state.id, "has taken a fork 1", BLUE);
+	pthread_mutex_lock(&g_fork[right]);
+	print_state(state.id, "has taken a fork 2", BLUE);
+	state.eating = 1;
+	state.current_eat_time = ft_gettime();
+	state.times_eat++;
+	print_state(state.id, "is eating", YELLOW);
+	mysleep(g_info.time_to_eat);
+	state.eating = 0;
+	state.last_time_eat = state.current_eat_time;
+	pthread_mutex_unlock(&g_fork[right]);
+	pthread_mutex_unlock(&g_fork[left]);
+	print_state(state.id, "is sleeping", PURPLE);
+	mysleep(g_info.time_to_sleep);
 }
 
 void	*looping(void *arg)
@@ -169,6 +197,7 @@ int		create_philosophers(void)
 	{
 		if (pthread_create(&g_th[i], NULL, looping, (void*)&g_state[i]))
 			return (error_m("error: can't create thread"));
+		usleep(100);
 		i++;
 	}
 	return (0);
