@@ -167,6 +167,7 @@ void	philosopher(t_state state)
 	pthread_mutex_unlock(&g_fork[left]);
 	print_state(state.id, "is sleeping", PURPLE);
 	mysleep(g_info.time_to_sleep);
+	print_state(state.id, "is thinking", GREEN);
 }
 
 void	*looping(void *arg)
