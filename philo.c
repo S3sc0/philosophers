@@ -223,6 +223,7 @@ int		monitor_philo_death(void)
 		i = 0;
 		while (i < g_info.nb_of_philo)
 		{
+			printf("%lld\n", ft_gettime() - g_state[i].last_time_eat);
 			if (g_state[i].eating == 0 &&
 				ft_gettime() - g_state[i].last_time_eat >= g_info.time_to_die)
 			{
