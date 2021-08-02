@@ -56,6 +56,17 @@ void	print_state(int id, char *status, char *color)
 	pthread_mutex_unlock(&g_output);
 }
 
+void	print_death(int id)
+{
+	struct timeval	tv;
+	long long		ms;
+
+	pthread_mutex_lock(&g_output);
+	ms = ft_gettime();
+	printf("%lld %d %s%s%s\n", ms, id, RED, "died", RESET);
+	// pthread_mutex_unlock(&g_output);
+}
+
 void	mysleep(int ms)
 {
 	struct timeval	tv;
@@ -64,7 +75,7 @@ void	mysleep(int ms)
 
 	gettimeofday(&tv, NULL);
 	last = tv.tv_usec + (tv.tv_sec * 1000000);
-	usleep((ms - 50) * 1000);
+	usleep((ms - 10) * 1000);
 	while ((current - last) < (ms * 1000))
 	{
 		gettimeofday(&tv, NULL);
@@ -137,9 +148,7 @@ void	initialize_state(void)
 	{
 		g_state[i].id = i + 1;
 		g_state[i].eating = 0;
-		g_state[i].sleeping = 0;
-		g_state[i].last_time_eat = 0;
-		g_state[i].current_eat_time = 0;
+		g_state[i].last_time_eat = ft_gettime();
 		g_state[i].times_eat = 0;
 		i++;
 	}
@@ -153,16 +162,15 @@ void	philosopher(t_state state)
 	left = state.id - 1;
 	right = (left + 1) % g_info.nb_of_philo;
 	pthread_mutex_lock(&g_fork[left]);
-	print_state(state.id, "has taken a fork 1", BLUE);
+	print_state(state.id, "has taken a fork", BLUE);
 	pthread_mutex_lock(&g_fork[right]);
-	print_state(state.id, "has taken a fork 2", BLUE);
+	print_state(state.id, "has taken a fork", BLUE);
 	state.eating = 1;
-	state.current_eat_time = ft_gettime();
+	state.last_time_eat = ft_gettime();
 	state.times_eat++;
 	print_state(state.id, "is eating", YELLOW);
 	mysleep(g_info.time_to_eat);
 	state.eating = 0;
-	state.last_time_eat = state.current_eat_time;
 	pthread_mutex_unlock(&g_fork[right]);
 	pthread_mutex_unlock(&g_fork[left]);
 	print_state(state.id, "is sleeping", PURPLE);
@@ -204,6 +212,27 @@ int		create_philosophers(void)
 	return (0);
 }
 
+int		monitor_philo_death(void)
+{
+	int		i;
+
+	while (1)
+	{
+		i = 0;
+		while (i < g_info.nb_of_philo)
+		{
+			if (g_state[i].eating == 0 &&
+				ft_gettime() - g_state[i].last_time_eat >= g_info.time_to_die)
+			{
+				print_death(g_state[i].id);
+				return (0);
+			}
+			i++;
+		}
+	}
+	return (0);
+}
+
 int		main(int ac, char *av[])
 {
 	if (parse_info(ac, av) == 1 || initialize_mutex() == 1)
@@ -211,10 +240,5 @@ int		main(int ac, char *av[])
 	initialize_state();
 	if (create_philosophers() == 1)
 		return (1);
-	for (int i = 0; i < g_info.nb_of_philo; i++)
-	{
-		if (pthread_join(g_th[i], NULL))
-			return (error_m("error: can't join thread"));
-	}
-	return (0);
+	return (monitor_philo_death());
 }
