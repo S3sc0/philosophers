@@ -156,36 +156,36 @@ void	initialize_state(void)
 	}
 }
 
-void	philosopher(t_state state)
+void	philosopher(t_state *state)
 {
 	int		left;
 	int		right;
 
-	left = state.id - 1;
+	left = state->id - 1;
 	right = (left + 1) % g_info.nb_of_philo;
 	pthread_mutex_lock(&g_fork[left]);
-	print_state(state.id, "has taken a fork", BLUE);
+	print_state(state->id, "has taken a fork", BLUE);
 	pthread_mutex_lock(&g_fork[right]);
-	print_state(state.id, "has taken a fork", BLUE);
-	state.eating = 1;
-	state.last_time_eat = ft_gettime();
-	state.times_eat++;
-	print_state(state.id, "is eating", YELLOW);
+	print_state(state->id, "has taken a fork", BLUE);
+	print_state(state->id, "is eating", YELLOW);
+	state->eating = 1;
+	state->times_eat++;
+	state->last_time_eat = ft_gettime();
 	mysleep(g_info.time_to_eat);
-	state.eating = 0;
+	state->eating = 0;
 	pthread_mutex_unlock(&g_fork[right]);
 	pthread_mutex_unlock(&g_fork[left]);
-	print_state(state.id, "is sleeping", PURPLE);
+	print_state(state->id, "is sleeping", PURPLE);
 	mysleep(g_info.time_to_sleep);
-	print_state(state.id, "is thinking", GREEN);
+	print_state(state->id, "is thinking", GREEN);
 }
 
 void	*looping(void *arg)
 {
-	t_state		state;
+	t_state		*state;
 	int			i;
 
-	state = *(t_state*)arg;
+	state = (t_state*)arg;
 	i = 0;
 	if (g_info.times_to_eat == 0)
 		while (1)
@@ -224,7 +224,7 @@ int		monitor_philo_death(void)
 		while (i < g_info.nb_of_philo)
 		{
 			if (g_state[i].eating == 0 &&
-				ft_gettime() - g_state[i].last_time_eat >= g_info.time_to_die)
+				ft_gettime() - g_state[i].last_time_eat > g_info.time_to_die)
 			{
 				print_death(g_state[i].id);
 				return (0);

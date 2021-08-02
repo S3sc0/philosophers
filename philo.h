@@ -1,7 +1,7 @@
 #ifndef PHILO_H
 #define PHILO_H
 
-#define RED " \033[0;31m"
+#define RED "\033[0;31m"
 #define RESET "\033[0m"
 #define BLUE "\033[0;34m"
 #define	YELLOW "\033[0;33m"
