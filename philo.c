@@ -64,6 +64,8 @@ void	print_death(int id)
 	pthread_mutex_lock(&g_output);
 	ms = ft_gettime();
 	printf("%lld %d %s%s%s\n", ms, id, RED, "died", RESET);
+	for (int i = 0; i < g_info.nb_of_philo; i++)
+		pthread_mutex_destroy(&g_fork[i]);
 	// pthread_mutex_unlock(&g_output);
 }
 
