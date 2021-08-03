@@ -47,7 +47,6 @@ long long	ft_gettime(void)
 
 void	print_state(int id, char *status, char *color)
 {
-	struct timeval	tv;
 	long long		ms;
 
 	pthread_mutex_lock(&g_output);

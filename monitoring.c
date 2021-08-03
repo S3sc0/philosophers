@@ -2,7 +2,6 @@
 
 void	print_death(int id)
 {
-	struct timeval	tv;
 	long long		ms;
 
 	pthread_mutex_lock(&g_output);
