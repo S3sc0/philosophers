@@ -44,11 +44,8 @@ long long	ft_gettime(void)
 
 void	print_state(int id, char *status, char *color)
 {
-	long long		ms;
-
 	pthread_mutex_lock(&g_output);
-	ms = ft_gettime();
-	printf("%lld %d %s%s%s\n", ms, id, color, status, RESET);
+	printf("%lld %d %s%s%s\n", ft_gettime(), id, color, status, RESET);
 	pthread_mutex_unlock(&g_output);
 }
 
