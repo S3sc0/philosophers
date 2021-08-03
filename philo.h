@@ -38,4 +38,16 @@ pthread_mutex_t		g_output;
 t_info				g_info;
 t_state				*g_state;
 
+void		initialize_state(void);
+int			initialize_mutex(void);
+int			parse_info(int ac, char *av[]);
+int			ft_atoi(const char *str);
+int			error_m(char *message);
+long long	ft_gettime(void);
+void		print_state(int id, char *status, char *color);
+void		print_death(int id);
+void		mysleep(int ms);
+void		free_and_destroy_mutex(void);
+int			monitor_philo_death(void);
+
 #endif
