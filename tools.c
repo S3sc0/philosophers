@@ -36,13 +36,10 @@ int		error_m(char *message)
 
 long long	ft_gettime(void)
 {
-	long long		ret;
 	struct timeval	tv;
 	
 	gettimeofday(&tv, NULL);
-	ret = (tv.tv_sec - g_info.start.tv_sec) * 1000;
-	ret = ret + (tv.tv_usec - g_info.start.tv_usec) / 1000;
-	return (ret);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
 void	print_state(int id, char *status, char *color)

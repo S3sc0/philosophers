@@ -34,7 +34,6 @@ int		parse_info(int ac, char *av[])
 		g_info.times_to_eat = ft_atoi(av[5]);
 	else
 		g_info.times_to_eat = 0;
-	gettimeofday(&g_info.start, NULL);
 	return (0);
 }
 

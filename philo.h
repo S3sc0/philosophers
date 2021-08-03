@@ -22,7 +22,6 @@ typedef struct	s_info
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				times_to_eat;
-	struct timeval	start;
 }				t_info;
 
 typedef struct	s_state
