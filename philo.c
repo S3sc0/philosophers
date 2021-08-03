@@ -28,6 +28,20 @@ int		ft_atoi(const char *str)
 	return (nb * sign);
 }
 
+void	free_and_destroy_mutex(void)
+{
+	int		i;
+
+	i = 0;
+	while (i < g_info.nb_of_philo)
+	{
+		pthread_mutex_destroy(&g_fork[i]);
+		i++;
+	}
+	free(g_fork);
+	free(g_state);
+}
+
 int		error_m(char *message)
 {
 	printf("%s%s%s\n", RED, message, RESET);
@@ -40,8 +54,8 @@ long long	ft_gettime(void)
 	struct timeval	tv;
 	
 	gettimeofday(&tv, NULL);
-	ret = tv.tv_sec * 1000;
-	ret = ret + tv.tv_usec / 1000;
+	ret = (tv.tv_sec - g_info.start.tv_sec) * 1000;
+	ret = ret + (tv.tv_usec - g_info.start.tv_usec) / 1000;
 	return (ret);
 }
 
@@ -64,8 +78,7 @@ void	print_death(int id)
 	pthread_mutex_lock(&g_output);
 	ms = ft_gettime();
 	printf("%lld %d %s%s%s\n", ms, id, RED, "died", RESET);
-	for (int i = 0; i < g_info.nb_of_philo; i++)
-		pthread_mutex_destroy(&g_fork[i]);
+	free_and_destroy_mutex();
 	// pthread_mutex_unlock(&g_output);
 }
 
@@ -119,6 +132,7 @@ int		parse_info(int ac, char *av[])
 		g_info.times_to_eat = ft_atoi(av[5]);
 	else
 		g_info.times_to_eat = 0;
+	gettimeofday(&g_info.start, NULL);
 	return (0);
 }
 
@@ -145,7 +159,6 @@ void	initialize_state(void)
 
 	i = 0;
 	g_state = malloc(sizeof(t_state) * g_info.nb_of_philo);
-	g_th = malloc(sizeof(pthread_t) * g_info.nb_of_philo);
 	while (i < g_info.nb_of_philo)
 	{
 		g_state[i].id = i + 1;
@@ -201,15 +214,38 @@ void	*looping(void *arg)
 
 int		create_philosophers(void)
 {
-	int		i;
+	int			i;
+	pthread_t	th;
 
 	i = 0;
 	while (i < g_info.nb_of_philo)
 	{
-		if (pthread_create(&g_th[i], NULL, looping, (void*)&g_state[i]))
+		if (pthread_create(&th, NULL, looping, (void*)&g_state[i]))
 			return (error_m("error: can't create thread"));
 		usleep(100);
 		i++;
+	}
+	return (0);
+}
+
+int		check_times_eat(void)
+{
+	int		i;
+	int		done;
+
+	i = 0;
+	done = 0;
+	while (i < g_info.nb_of_philo)
+	{
+		if (g_state[i].times_eat == g_info.times_to_eat)
+			done++;
+		i++;
+	}
+	if (done == g_info.nb_of_philo)
+	{
+		pthread_mutex_lock(&g_output);
+		free_and_destroy_mutex();
+		return (1);
 	}
 	return (0);
 }
@@ -231,6 +267,8 @@ int		monitor_philo_death(void)
 			}
 			i++;
 		}
+		if (check_times_eat() == 1)
+			return (0);
 	}
 	return (0);
 }

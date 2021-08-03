@@ -17,11 +17,12 @@
 
 typedef struct	s_info
 {
-	int		nb_of_philo;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		times_to_eat;
+	int				nb_of_philo;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				times_to_eat;
+	struct timeval	start;
 }				t_info;
 
 typedef struct	s_state
@@ -36,6 +37,5 @@ pthread_mutex_t		*g_fork;
 pthread_mutex_t		g_output;
 t_info				g_info;
 t_state				*g_state;
-pthread_t			*g_th;
 
 #endif
