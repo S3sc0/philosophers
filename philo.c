@@ -49,21 +49,23 @@ void	*looping(void *arg)
 	t_all		all;
 
 	all = global_function(NULL);
-	state = (t_state*)arg;
+	state = (t_state *)arg;
 	i = 0;
 	if (all.info.times_to_eat == 0)
 		while (1)
 			philosopher(state);
 	else
+	{
 		while (i < all.info.times_to_eat)
 		{
 			philosopher(state);
 			i++;
 		}
+	}
 	return (NULL);
 }
 
-int		create_philosophers(void)
+int	create_philosophers(void)
 {
 	int			i;
 	pthread_t	th;
@@ -73,7 +75,7 @@ int		create_philosophers(void)
 	i = 0;
 	while (i < all.info.nb_of_philo)
 	{
-		if (pthread_create(&th, NULL, looping, (void*)&all.state[i]))
+		if (pthread_create(&th, NULL, looping, (void *)&all.state[i]))
 			return (error_m("error: can't create thread"));
 		usleep(100);
 		i++;
@@ -82,7 +84,7 @@ int		create_philosophers(void)
 	return (0);
 }
 
-int		main(int ac, char *av[])
+int	main(int ac, char *av[])
 {
 	if (parse_info(ac, av) == 1 || initialize_mutex() == 1)
 		return (1);

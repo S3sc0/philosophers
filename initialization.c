@@ -1,10 +1,10 @@
 #include "philo.h"
 
-int		check_for_mistakes(int ac, char *av[])
+int	check_for_mistakes(int ac, char *av[])
 {
 	int		i;
 	int		j;
-	
+
 	i = 1;
 	if (ac < 5 || ac > 6)
 		return (error_m("error: wrong number of arguments"));
@@ -22,7 +22,7 @@ int		check_for_mistakes(int ac, char *av[])
 	return (0);
 }
 
-int		parse_info(int ac, char *av[])
+int	parse_info(int ac, char *av[])
 {
 	t_all	all;
 
@@ -40,7 +40,7 @@ int		parse_info(int ac, char *av[])
 	return (0);
 }
 
-int		initialize_mutex(void)
+int	initialize_mutex(void)
 {
 	int		i;
 	t_all	all;

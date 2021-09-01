@@ -1,11 +1,11 @@
 #include "philo.h"
 
-int		ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
-	int i;
-	int sign;
-	int nb;
-	int large;
+	int	i;
+	int	sign;
+	int	nb;
+	int	large;
 
 	large = 0;
 	i = 0;
@@ -28,7 +28,7 @@ int		ft_atoi(const char *str)
 	return (nb * sign);
 }
 
-int		error_m(char *message)
+int	error_m(char *message)
 {
 	printf("%s%s%s\n", RED, message, RESET);
 	return (1);
@@ -37,7 +37,7 @@ int		error_m(char *message)
 long long	ft_gettime(void)
 {
 	struct timeval	tv;
-	
+
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }

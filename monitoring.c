@@ -12,7 +12,7 @@ void	print_death(int id)
 	free_and_destroy_mutex();
 }
 
-int		monitor_philo_death(void)
+int	monitor_philo_death(void)
 {
 	int		i;
 	int		done;
@@ -25,14 +25,14 @@ int		monitor_philo_death(void)
 		done = 0;
 		while (++i < all.info.nb_of_philo)
 		{
-			if (all.state[i].eating == 0 &&
-				ft_gettime() - all.state[i].last_time_eat > all.info.time_to_die)
+			if (all.state[i].eating == 0 && ft_gettime()
+				- all.state[i].last_time_eat > all.info.time_to_die)
 			{
 				print_death(all.state[i].id);
 				return (0);
 			}
-			if (all.info.times_to_eat != 0 &&
-				all.state[i].times_eat == all.info.times_to_eat)
+			if (all.info.times_to_eat != 0 && all.state[i].times_eat
+				== all.info.times_to_eat)
 				done++;
 		}
 		if (done == all.info.nb_of_philo)
