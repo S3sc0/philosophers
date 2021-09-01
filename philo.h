@@ -32,10 +32,13 @@ typedef struct	s_state
 	int				times_eat;
 }				t_state;
 
-pthread_mutex_t		*g_fork;
-pthread_mutex_t		g_output;
-t_info				g_info;
-t_state				*g_state;
+typedef struct
+{
+	pthread_mutex_t		*fork;
+	pthread_mutex_t		output;
+	t_info				info;
+	t_state				*state;
+}						t_all;
 
 void		initialize_state(void);
 int			initialize_mutex(void);
@@ -48,5 +51,6 @@ void		print_death(int id);
 void		mysleep(int ms);
 void		free_and_destroy_mutex(void);
 int			monitor_philo_death(void);
+t_all		global_function(t_all *fill);
 
 #endif

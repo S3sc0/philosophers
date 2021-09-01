@@ -44,9 +44,12 @@ long long	ft_gettime(void)
 
 void	print_state(int id, char *status, char *color)
 {
-	pthread_mutex_lock(&g_output);
+	t_all	all;
+
+	all = global_function(NULL);
+	pthread_mutex_lock(&all.output);
 	printf("%lld %d %s%s%s\n", ft_gettime(), id, color, status, RESET);
-	pthread_mutex_unlock(&g_output);
+	pthread_mutex_unlock(&all.output);
 }
 
 void	mysleep(int ms)
@@ -57,6 +60,7 @@ void	mysleep(int ms)
 
 	gettimeofday(&tv, NULL);
 	last = tv.tv_usec + (tv.tv_sec * 1000000);
+	current = last;
 	usleep((ms - 10) * 1000);
 	while ((current - last) < (ms * 1000))
 	{
