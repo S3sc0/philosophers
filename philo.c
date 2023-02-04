@@ -68,18 +68,20 @@ void	*looping(void *arg)
 int	create_philosophers(void)
 {
 	int			i;
-	pthread_t	th;
+	pthread_t	*th;
 	t_all		all;
 
 	all = global_function(NULL);
 	i = 0;
+	th = malloc(sizeof(pthread_t) * all.info.nb_of_philo);
 	while (i < all.info.nb_of_philo)
 	{
-		if (pthread_create(&th, NULL, looping, (void *)&all.state[i]))
+		if (pthread_create(&th[i], NULL, looping, (void *)&all.state[i]))
 			return (error_m("error: can't create thread"));
 		usleep(100);
 		i++;
 	}
+	free(th);
 	global_function(&all);
 	return (0);
 }
