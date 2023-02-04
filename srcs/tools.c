@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../headers/philo.h"
 
 int	ft_atoi(const char *str)
 {

@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../headers/philo.h"
 
 void	print_death(int id)
 {
@@ -7,6 +7,7 @@ void	print_death(int id)
 
 	all = global_function(NULL);
 	pthread_mutex_lock(&all.output);
+	global_function(&all);
 	ms = ft_gettime();
 	printf("%lld %d %s%s%s\n", ms, id, RED, "died", RESET);
 	free_and_destroy_mutex();

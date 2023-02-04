@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../headers/philo.h"
 
 void	free_and_destroy_mutex(void)
 {

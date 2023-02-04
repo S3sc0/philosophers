@@ -1,7 +1,6 @@
-
 NAME = philo
 
-SRC = philo.c initialization.c monitoring.c tools.c global_function.c
+SRC = ./srcs/philo.c ./srcs/initialization.c ./srcs/monitoring.c ./srcs/tools.c ./srcs/global_function.c
 
 CC = gcc -Wextra -Werror -Wall -pthread
 

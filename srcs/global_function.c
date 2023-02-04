@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../headers/philo.h"
 
 t_all	global_function(t_all *fill)
 {

@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../headers/philo.h"
 
 int	check_for_mistakes(int ac, char *av[])
 {
