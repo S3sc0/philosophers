@@ -1,42 +1,56 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aamzouar <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/14 11:36:12 by aamzouar          #+#    #+#             */
-/*   Updated: 2021/06/14 11:36:15 by aamzouar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef PHILO_H
-#define PHILO_H
+# define PHILO_H
 
-#define BLUE "\033[0;34m"
-#define RED "\033[0;31m"
-#define YELLOW "\033[0;33m"
-#define PURPLE "\033[0;35m"
-#define RESET "\033[0m"
+# define RED "\033[0;31m"
+# define RESET "\033[0m"
+# define BLUE "\033[0;34m"
+# define	YELLOW "\033[0;33m"
+# define PURPLE "\033[0;35m"
+# define GREEN "\033[0;32m"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <unistd.h>
-#include <sys/time.h>
-#include <string.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <string.h>
+# include <pthread.h>
+# include <sys/time.h>
 
-typedef struct {
+typedef struct s_info
+{
 	int				nb_of_philo;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				times_to_eat;
-	pthread_mutex_t	*mutex;
-}			t_attribute;
+}				t_info;
 
-t_attribute		g_philo_attr;
+typedef struct s_state
+{
+	int				id;
+	int				eating;
+	long long		last_time_eat;
+	int				times_eat;
+}				t_state;
 
-int		ft_atoi(const char *str);
+typedef struct s_all
+{
+	pthread_mutex_t		*fork;
+	pthread_mutex_t		output;
+	t_info				info;
+	t_state				*state;
+}						t_all;
+
+void		initialize_state(void);
+int			initialize_mutex(void);
+int			parse_info(int ac, char *av[]);
+int			ft_atoi(const char *str);
+int			error_m(char *message);
+long long	ft_gettime(void);
+void		print_state(int id, char *status, char *color);
+void		print_death(int id);
+void		mysleep(int ms);
+void		free_and_destroy_mutex(void);
+int			monitor_philo_death(void);
+t_all		global_function(t_all *fill);
 
 #endif
