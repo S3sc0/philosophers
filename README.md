@@ -1,6 +1,8 @@
-# Philosophers
+# Philosophers 
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/An_illustration_of_the_dining_philosophers_problem.png/800px-An_illustration_of_the_dining_philosophers_problem.png)
+<div align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/An_illustration_of_the_dining_philosophers_problem.png/800px-An_illustration_of_the_dining_philosophers_problem.png" width="400" />
+</div>
 
 ## Project Overview
 
@@ -65,7 +67,7 @@ a philosopher dies of starvation.
 
 **Figure 01:** *One of the philosophers dies from starvation.*
 
-![](https://media.giphy.com/media/Feo4OSQdR79vFsL41m/giphy.gif)
+![](https://media.giphy.com/media/XeUfBFiRPyc0nkzVLp/giphy.gif)
 
 **Figure 02:** *The philosophers continue the simulation.*
 
@@ -73,6 +75,7 @@ a philosopher dies of starvation.
 
 ## Resources
 
+- [The Dining Philosophers Problem](https://youtu.be/FYUi-u7UWgw)
 - [Introduction to Parallel Computing Tutorial](https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial)
 - [Unix Threads In C](https://youtube.com/playlist?list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2)
 - [Mutex lock for Linux Thread Synchronization](https://www.geeksforgeeks.org/mutex-lock-for-linux-thread-synchronization/)
