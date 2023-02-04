@@ -37,9 +37,14 @@ int	error_m(char *message)
 long long	ft_gettime(void)
 {
 	struct timeval	tv;
+	long long		res;
+	t_all			all;
 
+	all = global_function(NULL);
 	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	res = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+
+	return (res - all.info.since_started);
 }
 
 void	print_state(int id, char *status, char *color)

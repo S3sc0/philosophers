@@ -26,8 +26,10 @@ int	parse_info(int ac, char *av[])
 {
 	t_all	all;
 
+	all.info.since_started = 0;
 	if (check_for_mistakes(ac, av) == 1)
 		return (1);
+	all.info.since_started = ft_gettime();
 	all.info.nb_of_philo = ft_atoi(av[1]);
 	all.info.time_to_die = ft_atoi(av[2]);
 	all.info.time_to_eat = ft_atoi(av[3]);

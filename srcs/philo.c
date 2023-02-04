@@ -25,16 +25,19 @@ void	philosopher(t_state *state)
 	all = global_function(NULL);
 	left = state->id - 1;
 	right = (left + 1) % all.info.nb_of_philo;
+
 	pthread_mutex_lock(&all.fork[left]);
 	print_state(state->id, "has taken a fork", BLUE);
 	pthread_mutex_lock(&all.fork[right]);
 	print_state(state->id, "has taken a fork", BLUE);
 	print_state(state->id, "is eating", YELLOW);
+
 	state->eating = 1;
 	state->times_eat++;
 	state->last_time_eat = ft_gettime();
 	mysleep(all.info.time_to_eat);
 	state->eating = 0;
+
 	pthread_mutex_unlock(&all.fork[right]);
 	pthread_mutex_unlock(&all.fork[left]);
 	print_state(state->id, "is sleeping", PURPLE);

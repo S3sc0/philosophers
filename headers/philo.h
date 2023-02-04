@@ -17,6 +17,7 @@
 
 typedef struct s_info
 {
+	long long		since_started;
 	int				nb_of_philo;
 	int				time_to_die;
 	int				time_to_eat;
