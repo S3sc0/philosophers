@@ -40,10 +40,8 @@ During that time, they will need to hold two forks.
 philosophers have eaten at least number_of_times_each_philosopher_must_eat
 times, the simulation stops. If not specified, the simulation stops when a
 philosopher dies.
-<br>
-<br>
 
-> #### The Ideology
+> ### The Ideology
 >
 >- One or more philosophers sit at a round table.<br>There is a large bowl of spaghetti in the middle of the table.
 >- The philosophers alternatively **eat**, **think**, or **sleep**.<br>
@@ -61,7 +59,7 @@ a philosopher dies of starvation.
 >- Philosophers don’t know if another philosopher is about to die.
 >- No need to say that philosophers should avoid dying!
 
-#### Screencasts
+### Screencasts
 
 ![](https://media.giphy.com/media/7HIGNeTVOZlHfIaaea/giphy.gif)
 
