@@ -39,6 +39,7 @@ During that time, they will need to hold two forks.
 philosophers have eaten at least number_of_times_each_philosopher_must_eat
 times, the simulation stops. If not specified, the simulation stops when a
 philosopher dies.
+<br>
 
 > ### The Ideology
 >
@@ -63,7 +64,6 @@ a philosopher dies of starvation.
 ![](https://media.giphy.com/media/7HIGNeTVOZlHfIaaea/giphy.gif)
 
 **Figure 01:** *One of the philosophers dies from starvation.*
-
 
 ![](https://media.giphy.com/media/Feo4OSQdR79vFsL41m/giphy.gif)
 
